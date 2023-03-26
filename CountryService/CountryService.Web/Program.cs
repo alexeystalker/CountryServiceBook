@@ -1,9 +1,19 @@
+﻿using System.IO.Compression;
+using CountryService.gRPC.Compression;
 using CountryService.Web;
 using CountryService.Web.Services;
+using Grpc.Net.Compression;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddGrpc();
+builder.Services.AddGrpc(options =>
+{
+    options.MaxReceiveMessageSize = 6291456; // 6 Mb
+    options.MaxSendMessageSize = 6291456; // 6 Mb
+    options.CompressionProviders = new ICompressionProvider[] { new BrotliCompressionProvider(CompressionLevel.Optimal) };
+    options.ResponseCompressionAlgorithm = "br"; //задаём grpc-accept-encoding, соответствует указанному в провайдере
+    options.ResponseCompressionLevel = CompressionLevel.Optimal;
+});
 
 builder.Services.AddSingleton<CountryManagementService>();
 
