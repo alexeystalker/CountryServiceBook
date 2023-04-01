@@ -8,19 +8,41 @@ namespace CountryService.Web.Services;
 public class CountryGrpcService : CountryServiceBase
 {
     private readonly CountryManagementService _countryManagementService;
+    private readonly ILogger<CountryGrpcService> _logger;
 
-    public CountryGrpcService(CountryManagementService countryManagementService)
+    public CountryGrpcService(
+        CountryManagementService countryManagementService,
+        ILogger<CountryGrpcService> logger)
     {
         _countryManagementService = countryManagementService;
+        _logger = logger;
     }
 
     public override async Task GetAll(Empty request, IServerStreamWriter<CountryReply> responseStream, ServerCallContext context)
     {
-        //Стримим все найденные страны клиенту
-        var replies = await _countryManagementService.GetAllAsync();
-        foreach (var countryReply in replies)
+        try
         {
-            await responseStream.WriteAsync(countryReply);
+            ////---Выкинем исключение---////
+            throw new Exception("Something got really wrong here");
+
+            //Стримим все найденные страны клиенту
+            var replies = await _countryManagementService.GetAllAsync();
+            foreach (var countryReply in replies)
+            {
+                await responseStream.WriteAsync(countryReply);
+            }
+        }
+        catch (Exception e)
+        {
+            var correlationId = Guid.NewGuid();
+            _logger.LogError(e, "CorrelationId: {0}", correlationId);
+
+            var trailers = new Metadata();
+            trailers.Add("CorrelationId", correlationId.ToString()); //Добавим correlationId в трейлеры
+            throw new RpcException(
+                new Status(StatusCode.Internal, $"Error message sent to the client with CorrelationId: {correlationId}"),
+                trailers,
+                "Error message that will appear in server log");
         }
     }
 

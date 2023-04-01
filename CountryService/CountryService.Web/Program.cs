@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc(options =>
 {
+    options.EnableDetailedErrors = true;
     options.MaxReceiveMessageSize = 6291456; // 6 Mb
     options.MaxSendMessageSize = 6291456; // 6 Mb
     options.CompressionProviders = new ICompressionProvider[] { new BrotliCompressionProvider(CompressionLevel.Optimal) };
