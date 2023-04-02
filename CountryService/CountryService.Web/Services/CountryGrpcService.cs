@@ -20,29 +20,14 @@ public class CountryGrpcService : CountryServiceBase
 
     public override async Task GetAll(Empty request, IServerStreamWriter<CountryReply> responseStream, ServerCallContext context)
     {
-        try
-        {
-            ////---Выкинем исключение---////
-            throw new Exception("Something got really wrong here");
+        ////---Выкинем исключение---////
+        throw new TimeoutException("Something got really wrong here");
 
-            //Стримим все найденные страны клиенту
-            var replies = await _countryManagementService.GetAllAsync();
-            foreach (var countryReply in replies)
-            {
-                await responseStream.WriteAsync(countryReply);
-            }
-        }
-        catch (Exception e)
+        //Стримим все найденные страны клиенту
+        var replies = await _countryManagementService.GetAllAsync();
+        foreach (var countryReply in replies)
         {
-            var correlationId = Guid.NewGuid();
-            _logger.LogError(e, "CorrelationId: {0}", correlationId);
-
-            var trailers = new Metadata();
-            trailers.Add("CorrelationId", correlationId.ToString()); //Добавим correlationId в трейлеры
-            throw new RpcException(
-                new Status(StatusCode.Internal, $"Error message sent to the client with CorrelationId: {correlationId}"),
-                trailers,
-                "Error message that will appear in server log");
+            await responseStream.WriteAsync(countryReply);
         }
     }
 
