@@ -18,11 +18,9 @@ public class CountryGrpcService : CountryServiceBase
         _logger = logger;
     }
 
+    
     public override async Task GetAll(Empty request, IServerStreamWriter<CountryReply> responseStream, ServerCallContext context)
     {
-        ////---Выкинем исключение---////
-        throw new TimeoutException("Something got really wrong here");
-
         //Стримим все найденные страны клиенту
         var replies = await _countryManagementService.GetAllAsync();
         foreach (var countryReply in replies)
@@ -30,6 +28,7 @@ public class CountryGrpcService : CountryServiceBase
             await responseStream.WriteAsync(countryReply);
         }
     }
+    
 
     public override async Task<CountryReply> Get(CountryIdRequest request, ServerCallContext context)
     {
