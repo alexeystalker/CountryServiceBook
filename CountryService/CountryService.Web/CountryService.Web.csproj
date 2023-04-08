@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\v2\country.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Calzolari.Grpc.AspNetCore.Validation" Version="6.2.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.52.0" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.52.0" />
@@ -14,11 +18,13 @@
   </ItemGroup>
 
 	<ItemGroup>
-        <Protobuf Include="Protos\country.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\v1\country.proto" GrpcServices="Server" />
+        <Protobuf Include="Protos\v2\country.proto" GrpcServices="Server" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Interceptors\Helpers\" />
+	  <Folder Include="Services\v2\" />
 	  <Folder Include="Validator\" />
 	</ItemGroup>
 

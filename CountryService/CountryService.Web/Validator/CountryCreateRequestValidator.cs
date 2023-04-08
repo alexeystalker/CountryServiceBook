@@ -1,4 +1,4 @@
-﻿using CountryService.Web.gRPC;
+﻿using CountryService.Web.gRPC.v1;
 using FluentValidation;
 
 namespace CountryService.Web.Validator;
