@@ -25,6 +25,7 @@ builder.Services.AddGrpcValidation(); //Добавляем сервисы вал
 builder.Services.AddValidator<CountryCreateRequestValidator>(); //Добавляем сам валидатор
 
 builder.Services.AddGrpcReflection();
+builder.Services.AddSingleton<ProtoService>(); 
 
 builder.Services.AddSingleton<CountryManagementService>();
 
@@ -35,6 +36,16 @@ app.MapGrpcReflectionService();
 app.MapGrpcService<v1.CountryGrpcService>(); // <-- 
 app.MapGrpcService<v2.CountryGrpcService>(); // <--
 
-app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+app.MapGet("/protos", (ProtoService protoService) => Results.Ok(protoService.GetAll()));
+app.MapGet("/protos/v{version:int}/{protoName}", (ProtoService protoService, int version, string protoName) =>
+{
+    var filePath = protoService.Get(version, protoName);
+    return filePath != null ? Results.File(filePath) : Results.NotFound();
+});
+app.MapGet("/protos/v{version:int}/{protoName}/view", async (ProtoService protoService, int version, string protoName) =>
+{
+    var text = await protoService.ViewAsync(version, protoName);
+    return !string.IsNullOrEmpty(text) ? Results.Text(text) : Results.NotFound();
+});
 
 app.Run();

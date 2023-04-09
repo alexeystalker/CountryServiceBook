@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package gRPCDemo.v2; //<-- âåðñèÿ 2
+package gRPCDemo.v2; //<-- Ð²ÐµÑ€ÑÐ¸Ñ 2
 
-option csharp_namespace = "CountryService.Web.gRPC.v2"; //<-- âåðñèÿ 2
+option csharp_namespace = "CountryService.Web.gRPC.v2"; //<-- Ð²ÐµÑ€ÑÐ¸Ñ 2
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
