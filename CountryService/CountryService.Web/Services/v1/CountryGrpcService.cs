@@ -1,9 +1,9 @@
-﻿using CountryService.Web.gRPC;
+﻿using CountryService.Web.gRPC.v1;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using static CountryService.Web.gRPC.CountryService;
+using static CountryService.Web.gRPC.v1.CountryService;
 
-namespace CountryService.Web.Services;
+namespace CountryService.Web.Services.v1;
 
 public class CountryGrpcService : CountryServiceBase
 {
@@ -18,7 +18,7 @@ public class CountryGrpcService : CountryServiceBase
         _logger = logger;
     }
 
-    
+
     public override async Task GetAll(Empty request, IServerStreamWriter<CountryReply> responseStream, ServerCallContext context)
     {
         //Стримим все найденные страны клиенту
@@ -28,7 +28,7 @@ public class CountryGrpcService : CountryServiceBase
             await responseStream.WriteAsync(countryReply);
         }
     }
-    
+
 
     public override async Task<CountryReply> Get(CountryIdRequest request, ServerCallContext context)
     {

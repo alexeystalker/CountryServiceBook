@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package gRPCDemo.v1;
+package gRPCDemo.v2; //<-- версия 2
 
-option csharp_namespace = "CountryService.Web.gRPC";
+option csharp_namespace = "CountryService.Web.gRPC.v2"; //<-- версия 2
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
@@ -10,7 +10,6 @@ import "google/protobuf/timestamp.proto";
 service CountryService {
 	rpc GetAll(google.protobuf.Empty) returns (stream CountryReply) {}
 	rpc Get(CountryIdRequest) returns (CountryReply) {}
-	rpc Delete(stream CountryIdRequest) returns (google.protobuf.Empty) {}
 	rpc Update(CountryUpdateRequest) returns (google.protobuf.Empty) {}
 	rpc Create(stream CountryCreationRequest) returns (stream CountryCreationReply) {}
 }
@@ -19,9 +18,8 @@ message CountryReply {
 	int32 Id = 1;
 	string Name = 2;
 	string Description = 3;
-	bytes Flag = 4;
-	google.protobuf.Timestamp CreateDate = 5;
-	google.protobuf.Timestamp UpdateDate = 6;
+	google.protobuf.Timestamp CreateDate = 4;
+	google.protobuf.Timestamp UpdateDate = 5;
 }
 
 message CountryIdRequest {
@@ -37,8 +35,7 @@ message CountryUpdateRequest {
 message CountryCreationRequest {
 	string Name = 1;
 	string Description = 2;
-	bytes Flag = 3;
-	google.protobuf.Timestamp CreateDate = 5;
+	google.protobuf.Timestamp CreateDate = 3;
 }
 
 message CountryCreationReply {
