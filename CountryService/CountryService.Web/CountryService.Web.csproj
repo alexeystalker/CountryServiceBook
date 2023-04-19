@@ -28,4 +28,8 @@
 	  <Folder Include="Validator\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\CountryService.gRPC\CountryService.gRPC.csproj" />
+	</ItemGroup>
+
 </Project>

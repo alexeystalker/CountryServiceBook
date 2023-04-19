@@ -1,24 +1,35 @@
 ﻿using System.Text.Json;
 using CountryService.Client;
+using CountryService.gRPC.Compression;
 using CountryService.Web.gRPC.v1;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Grpc.Net.Client;
+using Grpc.Net.Compression;
 using Microsoft.Extensions.Logging;
 using static CountryService.Web.gRPC.v1.CountryService;
 
 var loggerFactory = LoggerFactory.Create(logging =>
 {
     logging.AddSimpleConsole();
-    logging.SetMinimumLevel(LogLevel.Debug);
+    logging.SetMinimumLevel(LogLevel.Trace);
 });
-var channel = GrpcChannel.ForAddress("https://localhost:7282");
+var channel = GrpcChannel.ForAddress(
+    "https://localhost:7282",
+    new GrpcChannelOptions
+    {
+        LoggerFactory = loggerFactory,
+        CompressionProviders = new List<ICompressionProvider>
+        {
+            new BrotliCompressionProvider()
+        }
+    });
 var countryClient = new CountryServiceClient(channel.Intercept(new TracerInterceptor(loggerFactory.CreateLogger<TracerInterceptor>())));
 
-await Get(countryClient, loggerFactory.CreateLogger(nameof(Get)));
-await Create(countryClient, loggerFactory.CreateLogger(nameof(Create)));
-await Delete(countryClient, loggerFactory.CreateLogger(nameof(Delete)));
+//await Get(countryClient, loggerFactory.CreateLogger(nameof(Get)));
+//await Create(countryClient, loggerFactory.CreateLogger(nameof(Create)));
+//await Delete(countryClient, loggerFactory.CreateLogger(nameof(Delete)));
 await GetAll(countryClient, loggerFactory.CreateLogger(nameof(GetAll)));
 
 channel.Dispose();

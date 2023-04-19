@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CountryService.gRPC\CountryService.gRPC.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Protobuf Include="Protos\v2\country.proto" GrpcServices="Client">
       <SourceUri>https://localhost:7282/protos/v2/country.proto</SourceUri>
     </Protobuf>
