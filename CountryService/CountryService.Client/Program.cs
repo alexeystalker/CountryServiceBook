@@ -21,6 +21,9 @@ await Create(countryClient, loggerFactory.CreateLogger(nameof(Create)));
 await Delete(countryClient, loggerFactory.CreateLogger(nameof(Delete)));
 await GetAll(countryClient, loggerFactory.CreateLogger(nameof(GetAll)));
 
+channel.Dispose();
+await channel.ShutdownAsync();
+
 async Task GetAll(CountryServiceClient client, ILogger logger)
 {
     using var serverStreamingCall = client.GetAll(new Empty());
