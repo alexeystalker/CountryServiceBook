@@ -1,7 +1,9 @@
 ﻿using System.Text.Json;
+using CountryService.Client;
 using CountryService.Web.gRPC.v1;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Grpc.Core.Interceptors;
 using Grpc.Net.Client;
 using Microsoft.Extensions.Logging;
 using static CountryService.Web.gRPC.v1.CountryService;
@@ -9,14 +11,10 @@ using static CountryService.Web.gRPC.v1.CountryService;
 var loggerFactory = LoggerFactory.Create(logging =>
 {
     logging.AddSimpleConsole();
-    // В книге был уровень Trace, поставим Information.
-    logging.SetMinimumLevel(LogLevel.Information);
+    logging.SetMinimumLevel(LogLevel.Debug);
 });
-var channel = GrpcChannel.ForAddress("https://localhost:7282", new GrpcChannelOptions
-{
-    LoggerFactory = loggerFactory
-});
-var countryClient = new CountryServiceClient(channel);
+var channel = GrpcChannel.ForAddress("https://localhost:7282");
+var countryClient = new CountryServiceClient(channel.Intercept(new TracerInterceptor(loggerFactory.CreateLogger<TracerInterceptor>())));
 
 await Get(countryClient, loggerFactory.CreateLogger(nameof(Get)));
 await Create(countryClient, loggerFactory.CreateLogger(nameof(Create)));
