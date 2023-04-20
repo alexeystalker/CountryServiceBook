@@ -23,7 +23,9 @@ var channel = GrpcChannel.ForAddress(
         CompressionProviders = new List<ICompressionProvider>
         {
             new BrotliCompressionProvider()
-        }
+        },
+        MaxReceiveMessageSize = 6291456, // 6 Mb
+        MaxSendMessageSize = 6291456 // 6 Mb
     });
 var countryClient = new CountryServiceClient(channel.Intercept(new TracerInterceptor(loggerFactory.CreateLogger<TracerInterceptor>())));
 
