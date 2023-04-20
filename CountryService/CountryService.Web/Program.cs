@@ -10,6 +10,8 @@ using v2 = CountryService.Web.Services.v2; // <--
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.AddFilter("Microsoft.AspNetCore", LogLevel.Trace);
+
 builder.Services.AddGrpc(options =>
 {
     options.EnableDetailedErrors = true;

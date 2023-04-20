@@ -15,6 +15,13 @@ var loggerFactory = LoggerFactory.Create(logging =>
     logging.AddSimpleConsole();
     logging.SetMinimumLevel(LogLevel.Trace);
 });
+var handler = new SocketsHttpHandler
+{
+    KeepAlivePingDelay = TimeSpan.FromSeconds(15),
+    PooledConnectionIdleTimeout = TimeSpan.FromMinutes(5),
+        //Используйте Timeout.InfiniteTimeSpan для бесконечного таймаута,
+    KeepAlivePingTimeout = TimeSpan.FromSeconds(5),
+};
 var channel = GrpcChannel.ForAddress(
     "https://localhost:7282",
     new GrpcChannelOptions
@@ -25,14 +32,19 @@ var channel = GrpcChannel.ForAddress(
             new BrotliCompressionProvider()
         },
         MaxReceiveMessageSize = 6291456, // 6 Mb
-        MaxSendMessageSize = 6291456 // 6 Mb
+        MaxSendMessageSize = 6291456, // 6 Mb
+        HttpHandler = handler,
+        DisposeHttpClient = true
     });
+
 var countryClient = new CountryServiceClient(channel.Intercept(new TracerInterceptor(loggerFactory.CreateLogger<TracerInterceptor>())));
 
 //await Get(countryClient, loggerFactory.CreateLogger(nameof(Get)));
 //await Create(countryClient, loggerFactory.CreateLogger(nameof(Create)));
 //await Delete(countryClient, loggerFactory.CreateLogger(nameof(Delete)));
 await GetAll(countryClient, loggerFactory.CreateLogger(nameof(GetAll)));
+
+await Task.Delay(TimeSpan.FromSeconds(30));
 
 channel.Dispose();
 await channel.ShutdownAsync();
