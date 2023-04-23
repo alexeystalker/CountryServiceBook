@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Calzolari.Grpc.Net.Client.Validation;
 using CountryService.Client;
 using CountryService.gRPC.Compression;
 using CountryService.Web.gRPC.v1;
@@ -13,14 +14,14 @@ using static CountryService.Web.gRPC.v1.CountryService;
 var loggerFactory = LoggerFactory.Create(logging =>
 {
     logging.AddSimpleConsole();
-    logging.SetMinimumLevel(LogLevel.Trace);
+    logging.SetMinimumLevel(LogLevel.Information);
 });
 var handler = new SocketsHttpHandler
 {
     KeepAlivePingDelay = TimeSpan.FromSeconds(15),
     PooledConnectionIdleTimeout = TimeSpan.FromMinutes(5),
-        //Используйте Timeout.InfiniteTimeSpan для бесконечного таймаута,
     KeepAlivePingTimeout = TimeSpan.FromSeconds(5),
+    EnableMultipleHttp2Connections = true
 };
 var channel = GrpcChannel.ForAddress(
     "https://localhost:7282",
@@ -42,9 +43,10 @@ var countryClient = new CountryServiceClient(channel.Intercept(new TracerInterce
 //await Get(countryClient, loggerFactory.CreateLogger(nameof(Get)));
 //await Create(countryClient, loggerFactory.CreateLogger(nameof(Create)));
 //await Delete(countryClient, loggerFactory.CreateLogger(nameof(Delete)));
+await CreateWithValidationError(countryClient, loggerFactory.CreateLogger(nameof(CreateWithValidationError)));
 await GetAll(countryClient, loggerFactory.CreateLogger(nameof(GetAll)));
 
-await Task.Delay(TimeSpan.FromSeconds(30));
+//await Task.Delay(TimeSpan.FromSeconds(30));
 
 channel.Dispose();
 await channel.ShutdownAsync();
@@ -94,7 +96,7 @@ async Task Delete(CountryServiceClient client, ILogger logger)
 
 async Task Create(CountryServiceClient client, ILogger logger)
 {
-    using var bidirectionalStreamingCall = countryClient.Create();
+    using var bidirectionalStreamingCall = client.Create();
     var countriesToCreate = new List<CountryCreationRequest>
     {
         new CountryCreationRequest
@@ -108,6 +110,12 @@ async Task Create(CountryServiceClient client, ILogger logger)
             Name = "Poland",
             Description = "Eastern european country",
             CreateDate = Timestamp.FromDateTime(DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc))
+        },
+        new CountryCreationRequest
+        {
+            Name = "Japan",
+            Description = "", // Нарушает правило "минимум 5 символов
+            CreateDate =  Timestamp.FromDateTime(DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc))
         }
     };
     // Записываем
@@ -129,6 +137,46 @@ async Task Create(CountryServiceClient client, ILogger logger)
 
     var bidirectionalStreamingCallTrailers = bidirectionalStreamingCall.GetTrailers();
     logger.LogInformation($"Trailers:{Environment.NewLine}{JsonSerializer.Serialize(bidirectionalStreamingCallTrailers, new JsonSerializerOptions { WriteIndented = true })}");
+}
+
+async Task CreateWithValidationError(CountryServiceClient client, ILogger logger)
+{
+    using var bidirectionalStreamingCall = client.Create();
+    var countriesToCreate = new List<CountryCreationRequest>
+    {
+        new CountryCreationRequest
+        {
+            Name = "Japan",
+            Description = "", // Нарушает правило "минимум 5 символов
+            CreateDate =  Timestamp.FromDateTime(DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc))
+        }
+    };
+    try
+    {
+        // Записываем
+        foreach (var request in countriesToCreate)
+        {
+            await bidirectionalStreamingCall.RequestStream.WriteAsync(request);
+            logger.LogInformation($"Country {request.Name} set for creation");
+        }
+
+        // Сообщаем серверу о завершении передачи
+        await bidirectionalStreamingCall.RequestStream.CompleteAsync();
+        // Читаем поток с сервера
+        await foreach (var createdCountry in bidirectionalStreamingCall.ResponseStream.ReadAllAsync())
+        {
+            logger.LogInformation($"{createdCountry.Name} has been created with Id {createdCountry.Id}");
+        }
+    }
+    catch (RpcException ex) when (ex.StatusCode == StatusCode.InvalidArgument)
+    {
+        var errors = ex.GetValidationErrors();
+        logger.LogWarning($"validation error message: {ex.Message}{Environment.NewLine}Errors:{Environment.NewLine}{JsonSerializer.Serialize(errors, new JsonSerializerOptions { WriteIndented = true })}");
+    }
+    catch (Exception e)
+    {
+        logger.LogWarning(e, e.Message);
+    }
 }
 
 async Task Get(CountryServiceClient client, ILogger logger)
