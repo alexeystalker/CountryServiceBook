@@ -19,8 +19,14 @@ public class CountryContext : DbContext
             .HasMany(e => e.Languages)
             .WithMany(e => e.Countries)
             .UsingEntity<CountryLanguage>(
-                l => l.HasOne<Language>().WithMany().HasForeignKey(e => e.LanguageId),
-                r => r.HasOne<Country>().WithMany().HasForeignKey(e => e.CountryId)
+                l => l.HasOne<Language>().WithMany(lng =>lng.CountryLanguages).HasForeignKey(e => e.LanguageId),
+                r => r.HasOne<Country>().WithMany(c => c.CountryLanguages).HasForeignKey(e => e.CountryId)
             );
+
+        modelBuilder.Entity<Language>()
+            .HasData(
+                new Language {Id = 1, Name = "English"},
+                new Language {Id = 2, Name = "French"},
+                new Language {Id = 3, Name = "Spanish"});
     }
 }
