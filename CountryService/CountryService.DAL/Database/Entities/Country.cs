@@ -11,4 +11,5 @@ public class Country
     public DateTime CreateDate { get; set; }
     public DateTime? UpdateDate { get; set; }
     public ICollection<Language> Languages { get; set; }
+    public IEnumerable<CountryLanguage> CountryLanguages { get; set; }
 }
