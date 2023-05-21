@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryService.gRPC", "CountryService.gRPC\CountryService.gRPC.csproj", "{43B32B4B-A4AF-4A5A-B1E2-41EFBAB53DE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryService.gRPC", "CountryService.gRPC\CountryService.gRPC.csproj", "{43B32B4B-A4AF-4A5A-B1E2-41EFBAB53DE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryService.Domain", "CountryService.Domain\CountryService.Domain.csproj", "{A3828299-D0D8-4DDE-B9C2-F08FA0EF0495}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryService.Domain", "CountryService.Domain\CountryService.Domain.csproj", "{A3828299-D0D8-4DDE-B9C2-F08FA0EF0495}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryService.DAL", "CountryService.DAL\CountryService.DAL.csproj", "{D45D2D08-479F-4314-B576-A1620C07D2E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryService.DAL", "CountryService.DAL\CountryService.DAL.csproj", "{D45D2D08-479F-4314-B576-A1620C07D2E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryService.BLL", "CountryService.BLL\CountryService.BLL.csproj", "{47611F5F-51FB-498D-949E-E40A60BF0C28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryService.BLL", "CountryService.BLL\CountryService.BLL.csproj", "{47611F5F-51FB-498D-949E-E40A60BF0C28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

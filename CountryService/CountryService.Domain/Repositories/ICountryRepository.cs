@@ -5,6 +5,6 @@ public interface ICountryRepository
     Task<int> CreateAsync(CreateCountryModel countryToCreate);
     Task<int> UpdateAsync(UpdateCountryModel countryToUpdate);
     Task<int> DeleteAsync(int id);
-    Task<CountryModel> GetAsync(int id);
+    Task<CountryModel?> GetAsync(int id);
     Task<List<CountryModel>> GetAllAsync();
 }

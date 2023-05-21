@@ -7,17 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.53.0" />
+    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.53.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Protos\" />
+    <Folder Include="Interceptors\Helpers\" />
+    <Folder Include="Mappers\" />
+    <Folder Include="Compression\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CountryService.BLL\CountryService.BLL.csproj" />
     <ProjectReference Include="..\CountryService.DAL\CountryService.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\v1\country.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

@@ -18,7 +18,7 @@ public class CountryServices : ICountryServices
     public async Task<bool> DeleteAsync(int id) => 
         await _countryRepository.DeleteAsync(id) > 0;
 
-    public  Task<CountryModel> GetAsync(int id) => 
+    public Task<CountryModel?> GetAsync(int id) => 
         _countryRepository.GetAsync(id);
 
     public async Task<IEnumerable<CountryModel>> GetAllAsync() => 

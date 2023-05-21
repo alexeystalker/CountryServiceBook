@@ -50,8 +50,8 @@ public class CountryRepository : ICountryRepository
         return _countryContext.SaveChangesAsync();
     }
 
-    public Task<CountryModel> GetAsync(int id) =>
-        _countryContext.Countries.AsNoTracking().ToDomain().SingleAsync(c => c.Id == id);
+    public Task<CountryModel?> GetAsync(int id) =>
+        _countryContext.Countries.AsNoTracking().ToDomain().SingleOrDefaultAsync(c => c.Id == id);
 
     public Task<List<CountryModel>> GetAllAsync() =>
         _countryContext.Countries.AsNoTracking().ToDomain().ToListAsync();
