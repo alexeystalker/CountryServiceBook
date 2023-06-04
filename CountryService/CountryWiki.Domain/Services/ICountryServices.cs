@@ -2,7 +2,7 @@
 
 public interface ICountryServices
 {
-    Task CreateAsync(IEnumerable<CreateCountryModel> countryToCreate);
+    Task CreateAsync(IEnumerable<CreateCountryModel> countriesToCreate);
     Task UpdateAsync(UpdateCountryModel countryToUpdate);
     Task DeleteAsync(int id);
     Task<CountryModel> GetAsync(int id);
