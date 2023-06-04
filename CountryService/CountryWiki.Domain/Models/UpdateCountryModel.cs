@@ -3,5 +3,5 @@
 public record class UpdateCountryModel
 {
     public int Id { get; init; }
-    public int Description { get; init; }
+    public string Description { get; init; }
 }

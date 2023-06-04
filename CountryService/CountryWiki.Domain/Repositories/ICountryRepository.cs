@@ -2,7 +2,7 @@
 
 public interface ICountryRepository
 {
-    IAsyncEnumerable<CreatedCountryModel> CreateAsync(IEnumerable<CreateCountryModel> countryToCreate);
+    IAsyncEnumerable<CreatedCountryModel> CreateAsync(IEnumerable<CreateCountryModel> countriesToCreate);
     Task UpdateAsync(UpdateCountryModel countryToUpdate);
     Task DeleteAsync(int id);
     Task<CountryModel> GetAsync(int id);
