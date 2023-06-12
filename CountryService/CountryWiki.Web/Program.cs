@@ -2,7 +2,25 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<ICountryServices, CountryServices>();
+builder.Services.AddScoped<ICountryFileUploadValidatorService, 
+    CountryFileUploadValidatorService>();
+builder.Services.AddSingleton<ISyncCountriesChannel, SyncCountriesChannel>();
+builder.Services.AddHostedService<SyncUploadedCountriesBackgroundService>();
+builder.Services.AddSingleton(new GlobalOptions {ProcessingUpload = false});
 
+var loggerFactory = LoggerFactory.Create(logging =>
+{
+    logging.AddConsole();
+    logging.SetMinimumLevel(LogLevel.Trace);
+});
+
+builder.Services.AddCountryServiceClient(
+    loggerFactory, 
+    builder.Configuration.GetValue<string>("CountryServiceUri"));
+
+//-- начиная с этой строки, весь код ниже взят напрямую из шаблона
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
