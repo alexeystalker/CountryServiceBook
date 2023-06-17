@@ -15,13 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gRPC", "gRPC", "{AE21085A-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{B795D93B-F25B-4200-9C86-EE804DA53766}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryWiki.Web", "CountryWiki.Web\CountryWiki.Web.csproj", "{261FDEFB-A8A6-477D-A77C-D5D8F1DD046F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryWiki.Web", "CountryWiki.Web\CountryWiki.Web.csproj", "{261FDEFB-A8A6-477D-A77C-D5D8F1DD046F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryWiki.Domain", "CountryWiki.Domain\CountryWiki.Domain.csproj", "{792573D9-F53C-4A05-BA68-7926408FA480}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryWiki.Domain", "CountryWiki.Domain\CountryWiki.Domain.csproj", "{792573D9-F53C-4A05-BA68-7926408FA480}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryWiki.DAL", "CountryWiki.DAL\CountryWiki.DAL.csproj", "{04DA9F9B-34A2-4626-8302-958A77D755BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryWiki.DAL", "CountryWiki.DAL\CountryWiki.DAL.csproj", "{04DA9F9B-34A2-4626-8302-958A77D755BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryWiki.BLL", "CountryWiki.BLL\CountryWiki.BLL.csproj", "{0B0D93C5-7A60-4EF8-B7BB-BF4E1655CF08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryWiki.BLL", "CountryWiki.BLL\CountryWiki.BLL.csproj", "{0B0D93C5-7A60-4EF8-B7BB-BF4E1655CF08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
