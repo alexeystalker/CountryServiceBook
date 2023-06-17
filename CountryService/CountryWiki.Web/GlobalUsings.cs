@@ -11,3 +11,5 @@ global using CountryWiki.Web.Background;
 global using CountryWiki.Web.Channels;
 global using CountryWiki.Web.Options;
 global using Grpc.Core;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.RazorPages;

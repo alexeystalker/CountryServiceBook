@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
-namespace CountryWiki.Web.Pages
+﻿namespace CountryWiki.Web.Pages
 {
     public class PrivacyModel : PageModel
     {
