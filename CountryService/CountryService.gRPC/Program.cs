@@ -23,6 +23,7 @@ builder.Services.AddSingleton<ProtoService>();
 
 var app = builder.Build();
 
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 app.MapGrpcReflectionService();
 app.MapGrpcService<CountryGrpcService>();
 
