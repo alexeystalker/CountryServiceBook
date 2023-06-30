@@ -10,6 +10,8 @@ global using CountryWiki.Domain.Repositories;
 global using Google.Protobuf.WellKnownTypes;
 global using Grpc.Core;
 global using Grpc.Core.Interceptors;
+global using Grpc.Net.Client;
+global using Grpc.Net.Client.Web;
 global using Grpc.Net.Compression;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
