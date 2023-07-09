@@ -20,12 +20,22 @@ builder.Services.AddScoped<ICountryServices, CountryServices>();
 builder.Services.AddDbContext<CountryContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CountryService")));
 builder.Services.AddSingleton<ProtoService>();
+builder.Services.AddCors(o => o.AddPolicy("AllowAll", builder =>
+{
+    builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyOrigin()
+        .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
+}));
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
 app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 app.MapGrpcReflectionService();
 app.MapGrpcService<CountryGrpcService>();
+app.MapGrpcService<CountryGrpcServiceBrowser>();
 
 app.MapGet("/protos", (ProtoService protoService) => Results.Ok(protoService.GetAll()));
 app.MapGet("/protos/v{version:int}/{protoName}", (ProtoService protoService, int version, string protoName) =>

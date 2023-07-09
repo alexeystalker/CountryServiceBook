@@ -4,7 +4,7 @@ global using System.IO.Compression;
 global using CountryWiki.DAL.Compression;
 global using CountryWiki.DAL.Interceptors;
 global using CountryWiki.DAL.Mappers;
-global using CountryWiki.DAL.v1;
+global using CountryWiki.DAL.Protos.v1;
 global using CountryWiki.Domain.Models;
 global using CountryWiki.Domain.Repositories;
 global using Google.Protobuf.WellKnownTypes;

@@ -26,6 +26,8 @@
 
   <ItemGroup>
     <Protobuf Include="Protos\v1\country.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\v1\country.browser.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\v1\country.shared.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>
