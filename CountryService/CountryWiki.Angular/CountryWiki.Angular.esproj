@@ -3,10 +3,21 @@
     <StartupCommand>npm start</StartupCommand>
     <JavaScriptTestFramework>Jasmine</JavaScriptTestFramework>
     <!-- Command to run on project build -->
-    <BuildCommand></BuildCommand>
+    <BuildCommand>
+    </BuildCommand>
     <!-- Command to create an optimized build of the project that's ready for publishing -->
     <ProductionBuildCommand>npm run build</ProductionBuildCommand>
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\CountryWiki.Angular</BuildOutputFolder>
   </PropertyGroup>
+  <ItemGroup>
+    <None Update="src\protos\v1\country.browser.proto">
+      <GrpcServices>Server</GrpcServices>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="src\protos\v1\country.shared.proto">
+      <GrpcServices>Server</GrpcServices>
+    </None>
+  </ItemGroup>
 </Project>
