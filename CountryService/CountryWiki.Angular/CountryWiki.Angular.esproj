@@ -20,4 +20,8 @@
       <GrpcServices>Server</GrpcServices>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\app\mappers\" />
+    <Folder Include="src\app\services\" />
+  </ItemGroup>
 </Project>
