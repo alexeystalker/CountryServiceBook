@@ -14,7 +14,7 @@
     <PackageReference Include="Calzolari.Grpc.AspNetCore.Validation" Version="6.3.0" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.52.0" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.52.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.3" />
   </ItemGroup>
 
 	<ItemGroup>
